@@ -3,11 +3,6 @@ concur
 
 Python API Client for Concur (http://concur.com/).
 
-concur
-=====
-
-This is a Python client library for the [Concur App](http://www.concur-app.com/).
-
 Requirements
 ------------
 
@@ -23,7 +18,7 @@ Install via pip:
 Usage
 -----
 
-See `examples/oauth.py` for some basic examples.
+See `examples/concur_cli.py` for some basic examples.
 
 You can request API endpoints like so:
 
