@@ -1,6 +1,9 @@
 *_cli.json
 *.py[cod]
 
+# Vi backup files
+*~
+
 # C extensions
 *.so
 

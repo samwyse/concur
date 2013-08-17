@@ -4,10 +4,11 @@ import requests
 import types
 
 from xml.etree.cElementTree import register_namespace, fromstring
-from xml2json import elem_to_internal
+from _xml2json import elem_to_internal, internal_to_elem
 
 import re
-massive_kludge = re.compile(r'\s+xmlns(:?:i)?="(:?[^"]*)"')                              
+massive_kludge = re.compile(r'\s+xmlns(:?:i)?="(:?[^"]*)"')
+massive_kludge2 = re.compile(r'i\:')
 
 
 class ConcurAPIError(Exception):
@@ -17,7 +18,7 @@ class ConcurAPIError(Exception):
 
 class ConcurClient(object):
     """OAuth client for the Concur API"""
-    api_url = "https://www.concursolutions.com/api/expense/expensereport/v2.0"
+    api_url = "https://www.concursolutions.com/api"
     #app_auth_url = "Concur://app/authorize"
     web_auth_uri = "https://www.concursolutions.com/net2/oauth2/Login.aspx"
     token_url = "https://www.concursolutions.com/net2/oauth2/GetAccessToken.ashx"
@@ -80,29 +81,22 @@ class ConcurClient(object):
 
         content_type = response.headers['content-type']
         if 'xml' in content_type:
-            print response.content
-            print '====='
-            root = fromstring(massive_kludge.sub('', response.content))
+            content = massive_kludge.sub('', response.content)
+            content = massive_kludge2.sub('', content)
+            root = fromstring(content)
             if root.tag.lower() == 'error':
                 raise ConcurAPIError(root.find('Message').text)
-            print root.tag
-            print root.attrib
-            print '====='
             register_namespace('', 'http://www.concursolutions.com/api/expense/expensereport/2012/07')
             return 'xml', elem_to_internal(root)
         if 'json' in content_type:
             return 'json', json.loads(response.content)
         raise ConcurAPIError('unknown content-type: %s' % content_type)
 
-##    def parse_response(self, response):
-##        """Parse JSON API responses."""
-##
-##        return json.loads(response.text)
-
     def api(self, path, method='GET', **kwargs):
 
         params = kwargs['params'] if 'params' in kwargs else {}
         data = kwargs['data'] if 'data' in kwargs else {}
+        headers = kwargs['headers'] if 'headers' in kwargs else {}
 
         if not self.access_token and 'access_token' not in params:
             raise ConcurAPIError("You must provide a valid access token.")
@@ -115,9 +109,7 @@ class ConcurClient(object):
         else:
             access_token = self.access_token
 
-        headers = {
-            'Authorization': '%s %s' % (self.authentication_scheme, access_token)
-        }
+        headers['Authorization'] = '%s %s' % (self.authentication_scheme, access_token)
 
         resp = requests.request(method, url,
                                 data=data,
@@ -129,18 +121,23 @@ class ConcurClient(object):
         return resp
 
     def get(self, path, **params):
-##        return self.parse_response(
-##            self.api(path, 'GET', params=params))
         content_type, parsed = self.validate_response(
             self.api(path, 'GET', params=params))
         return parsed
 
 
     def post(self, path, **data):
-##        return self.parse_response(
-##            self.api(path, 'POST', data=data))
         content_type, parsed = self.validate_response(
-            self.api(path, 'POST', data=params))
+            self.api(path, 'POST', data=data))
+        return parsed
+
+    def post_raw(self, path, content_type, data, **params):
+        content_type, parsed = self.validate_response(
+            self.api(path, 'POST',
+                     params=params,
+                     data=data,
+                     headers={'content-type':content_type},
+                     ))
         return parsed
 
     def __getattr__(self, name):
