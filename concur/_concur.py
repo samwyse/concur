@@ -4,7 +4,7 @@ import requests
 import types
 
 from xml.etree.cElementTree import register_namespace, fromstring
-from _xml2json import elem_to_internal, internal_to_elem
+from _xml2json import elem_to_internal, internal_to_elem, UsingPrefix
 
 import re
 massive_kludge = re.compile(r'\s+xmlns(:?:i)?="(:?[^"]*)"')
@@ -142,9 +142,9 @@ class ConcurClient(object):
 
     def __getattr__(self, name):
         '''\
-Turns method calls such as "Concur.foo_bar(...)" into
-a call to "Concur.api('/foo/bar', 'GET', params={...})"
-and then parses the response.
+Turn method calls such as "Concur.foo_bar(...)" into
+"Concur.api('/foo/bar', 'GET', params={...})", and then parse the
+response.
 '''
         base_path = name.replace('_', '/')
 

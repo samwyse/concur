@@ -316,6 +316,8 @@ These are some commands to try.
     @_syntax(no_args)
     def do_create_report(self, namespace):
         '''Creates a new expense report'''
+        from datetime import datetime
+        import _xml2json as x2j
         data = {
             'Name': 'MMMM Expenses',
             'Purpose': 'All expenses for MMM, YYYY',
@@ -324,10 +326,10 @@ These are some commands to try.
             }
         now = datetime.now()
         new_report = {'Report': dict((k, now.strftime(fix_dates.sub(v))) for k, v in data.items())}
+        canonization = x2j.UsingPrefix(default_namespace='http://www.concursolutions.com/api/expense/expensereport/2011/03')
         _pprint(self.client.post_raw('expense/expensereport/v1.1/report',
-                                content_type='application/xml',
-                                data=data,
-                                foo='bar'))
+                                     content_type='application/xml',
+                                     data=x2j.internal_to_elem(new_report, canonize=canonization)))
 
 
 def main(argv=None):
