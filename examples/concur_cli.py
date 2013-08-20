@@ -18,19 +18,26 @@ http://opensource.org/licenses/afl-3.0
 """
 
 from cmd import Cmd as _Cmd
+from datetime import datetime
 from functools import wraps as _wraps
 from pprint import pprint as _pprint
 import json as _json
 import re
 
 try:
-    from concur import ConcurClient
+    from cStringIO import StringIO
 except ImportError:
-    import sys
+    from StringIO import StringIO
+
+try:
+    from concur import ConcurClient, ConcurAPIError
+except ImportError:
+    from sys import path
     from os.path import join, normpath
     # Try looking in the parent of this script's directory.
-    sys.path.insert(0, normpath(join(sys.path[0], '..')))
-    from concur import ConcurClient
+    path.insert(0, normpath(join(path[0], '..')))
+    from concur import ConcurClient, ConcurAPIError
+import concur._xml2json as x2j
 
 class dict_re(dict):
     _repl = lambda self, matchobj: self.get(matchobj.group(), '')
@@ -165,6 +172,9 @@ class ConcurCmd(_Cmd):
     def onecmd(self, line):
         try:
             return _Cmd.onecmd(self, line)
+        except ConcurAPIError as error:
+            print "%s: %s" % (type(error).__name__, error[0])
+            print error[1]
         except Exception as error:
             print "%s: %s" % (type(error).__name__, error)
 
@@ -316,20 +326,24 @@ These are some commands to try.
     @_syntax(no_args)
     def do_create_report(self, namespace):
         '''Creates a new expense report'''
-        from datetime import datetime
-        import _xml2json as x2j
         data = {
-            'Name': 'MMMM Expenses',
+            'Name': 'MMMM Expenses',  # ReportName
             'Purpose': 'All expenses for MMM, YYYY',
-            'Comment': 'Includes Client Meetings.',
-            'UserDefinedDate': 'YYYY-MM-DD HH:MM:SS.0',
+            'Comment': 'Includes Client Meetings.',  # LastComment (in summary)
+            'UserDefinedDate': 'YYYY-MM-DD HH:MM:SS.0',  # ReportDate
             }
         now = datetime.now()
         new_report = {'Report': dict((k, now.strftime(fix_dates.sub(v))) for k, v in data.items())}
         canonization = x2j.UsingPrefix(default_namespace='http://www.concursolutions.com/api/expense/expensereport/2011/03')
-        _pprint(self.client.post_raw('expense/expensereport/v1.1/report',
+        elem = x2j.internal_to_elem(new_report, canonize=canonization)
+        from xml.etree.ElementTree import ElementTree
+        if not isinstance(elem, ElementTree):
+            elem = ElementTree(elem)
+        buffer = StringIO()
+        elem.write(buffer)
+        _pprint(self.client.post_raw('expense/expensereport/v1.1/Report',
                                      content_type='application/xml',
-                                     data=x2j.internal_to_elem(new_report, canonize=canonization)))
+                                     data=buffer.getvalue()))
 
 
 def main(argv=None):
