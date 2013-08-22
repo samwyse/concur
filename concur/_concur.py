@@ -2,13 +2,14 @@ import json
 import urllib
 import requests
 import types
-
-from xml.etree.cElementTree import register_namespace, fromstring
-from _xml2json import elem_to_internal, internal_to_elem, UsingPrefix
-
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+from xml.etree.cElementTree import ElementTree, register_namespace, fromstring
 import re
-massive_kludge = re.compile(r'\s+xmlns(:?:i)?="(:?[^"]*)"')
-massive_kludge2 = re.compile(r'i\:')
+
+from _xml2json import elem_to_internal, internal_to_elem, UsingPrefix
 
 
 class ConcurAPIError(Exception):
@@ -81,13 +82,12 @@ class ConcurClient(object):
 
         content_type = response.headers['content-type']
         if 'xml' in content_type:
-            content = massive_kludge.sub('', response.content)
-            content = massive_kludge2.sub('', content)
-            root = fromstring(content)
+            root = fromstring(response.content)
             if root.tag.lower() == 'error':
                 raise ConcurAPIError(root.find('Message').text)
-            register_namespace('', 'http://www.concursolutions.com/api/expense/expensereport/2012/07')
-            return 'xml', elem_to_internal(root)
+            return 'xml', elem_to_internal(root,
+                canonize=UsingPrefix(default_namespace=root),
+                )
         if 'json' in content_type:
             return 'json', json.loads(response.content)
         raise ConcurAPIError('unknown content-type: %s' % content_type)
@@ -112,10 +112,17 @@ class ConcurClient(object):
         headers['Authorization'] = '%s %s' % (self.authentication_scheme, access_token)
 
         resp = requests.request(method, url,
-                                data=data,
                                 params=params,
-                                headers=headers)
+                                headers=headers,
+                                data=data,
+                                )
         if str(resp.status_code)[0] not in ('2', '3'):
+            print 'method =', method
+            print 'url =', url
+            print 'params =', params
+            print 'headers =', headers
+            print 'data =', data
+            print
             raise ConcurAPIError("Error returned via the API with status code (%s):" %
                                 resp.status_code, resp.text)
         return resp
@@ -125,18 +132,28 @@ class ConcurClient(object):
             self.api(path, 'GET', params=params))
         return parsed
 
-
     def post(self, path, **data):
-        content_type, parsed = self.validate_response(
-            self.api(path, 'POST', data=data))
-        return parsed
-
-    def post_raw(self, path, content_type, data, **params):
+        params = data.pop('_params', {})
+        if '_xmlns' in data:
+            headers = { 'content-type': 'application/xml' }
+            elem = ElementTree(
+                internal_to_elem(
+                    data,
+                    canonize=UsingPrefix(
+                        default_namespace=data.pop('_xmlns'),
+                        ),
+                    ),
+                )
+            data = StringIO()
+            elem.write(data)
+            data = data.getvalue()
+        else:
+            headers = {}
         content_type, parsed = self.validate_response(
             self.api(path, 'POST',
                      params=params,
+                     headers=headers,
                      data=data,
-                     headers={'content-type':content_type},
                      ))
         return parsed
 

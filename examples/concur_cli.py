@@ -17,6 +17,7 @@ Licensed under the Academic Free License (AFL 3.0)
 http://opensource.org/licenses/afl-3.0
 """
 
+from argparse import ArgumentParser
 from cmd import Cmd as _Cmd
 from datetime import datetime
 from functools import wraps as _wraps
@@ -24,10 +25,7 @@ from pprint import pprint as _pprint
 import json as _json
 import re
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from ValidateElements import *
 
 try:
     from concur import ConcurClient, ConcurAPIError
@@ -39,33 +37,8 @@ except ImportError:
     from concur import ConcurClient, ConcurAPIError
 import concur._xml2json as x2j
 
-class dict_re(dict):
-    _repl = lambda self, matchobj: self.get(matchobj.group(), '')
-
-    def compile(self, flags=0, pattern=None):
-        '''Compile a regular expression consisting of the alternation
-of all keys. The 'pattern' optional argument is intended for
-"hand-optimized" patterns. This is a separate step to allow the
-dictionary to be built incrementally. The return value allows idioms
-such as, "x = dict_re(...).compile()"'''
-        self.pattern = pattern if pattern else '|'.join(re.escape(key) for key in sorted(self.keys()))
-        self._re  = re.compile(self.pattern, flags)
-        self.flags = self._re.flags
-        return self
-
-    def sub(self, string, count=0):
-        '''Return the string obtained by replacing occurrences of
-        dictionary keys in string by the corresponding value.'''
-        return self._re.sub(self._repl, string, count)
-
-    def subn(self, string, count=0):
-        '''Perform the same operation as sub(), but return a tuple
-        (new_string, number_of_subs_made).'''
-        return self._re.subn(self._repl, string, count)
-
 def mk_parser(*args):
-    import argparse
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         prog='',
         description='',
         add_help=False,
@@ -83,19 +56,19 @@ def mk_parser(*args):
         parser.add_argument(*dest, **flags)
     return parser
 
-def _syntax(parser, presplit=True, f=None):
+def _syntax(parser, dont_split=False, f=None):
     '''Decorator that accepts an ArgumentParser, then mutates a
 function that is accepts a string to instead accept a Namespace.'''
     if f is None:
         from copy import copy
         from functools import partial
-        return partial(_syntax, copy(parser), presplit)
+        return partial(_syntax, copy(parser), dont_split)
     parser.prog = f.func_name[3:]
     parser.description = f.func_doc or 'No description available'
     f.func_doc = parser.format_help()
     @_wraps(f)
     def wrapper(self, line):
-        args = line.split() if presplit else [line]
+        args = [line] if dont_split else line.split()
         return f(self, parser.parse_args(args))
     return wrapper
 
@@ -133,19 +106,6 @@ def _unset(names, dict):
         except KeyError:
             pass
 
-
-fix_dates = dict_re((
-    ('YYYY', '%Y'),
-    ('YY', '%y'),
-    ('MMMM', '%B'),
-    ('MMM', '%b'),
-    ('MM', '%m'),
-    ('DDDD', '%A'),
-    ('DDD', '%a'),
-    ('DD', '%d'),
-    ('HH:MM', '%H:%M'),
-    ('HH:MM:SS', '%H:%M:%S'),
-    )).compile(pattern='YY(?:YY)?|M{2,4}|D{2,4}|HH\:MM(?:\:SS)?')
 no_args = mk_parser()
 filename = mk_parser('filename', {'nargs':'?'})
 value = mk_parser('value', {'nargs':'?'})
@@ -153,7 +113,9 @@ define = mk_parser('name', {'nargs':'?'}, 'definition', {'nargs':'*'})
 undefine = mk_parser('names', {'nargs':'+'})
 key_value = lambda x: x.split('=', 1)  # turn 'foo=bar' into ('foo', 'bar')
 http_request = mk_parser('path', {'nargs':'+'},
-                         ('-o', '--options'), {'nargs':'*', 'type': key_value})
+                         ('-o', '--options'), {'nargs':'*', 'type': key_value, 'default': ()})
+options = mk_parser('options', {'nargs':'*', 'type': key_value, 'default': ()})
+
 
 
 class ConcurCmd(_Cmd):
@@ -177,6 +139,9 @@ class ConcurCmd(_Cmd):
             print error[1]
         except Exception as error:
             print "%s: %s" % (type(error).__name__, error)
+            import traceback
+            traceback.print_exc()
+            
 
     def default(self, line):
         '''Handle aliases.'''
@@ -205,16 +170,16 @@ class ConcurCmd(_Cmd):
         '''Displays example commands.'''
         print '''\
 These are some commands to try.
-\tget expense expensereport v2.0 Reports -o status=ACTIVE
-\tget expense expensereport v2.0 Reports -o ReportCurrency=USD
-\tget expense expensereport v2.0 report 9A529938A4E44F6C8652 -o'''
+\tcreate_report Name=MMMM+Expenses Purpose=All+expenses+for+MMM,+YYYY Comment=Includes+Client+Meetings. UserDefinedDate=YYYY-MM-DD+HH:MM:SS.0
+\tget expense expensereport v2.0 Reports -o status=ACTIVE ReportCurrency=USD
+\tget expense expensereport v2.0 report <ReportID>'''
 
-    @_syntax(value, presplit=False)
+    @_syntax(value, dont_split=True)
     def do_note(self, namespace):
         '''Comment.'''
         pass
 
-    @_syntax(value, presplit=False)
+    @_syntax(value, dont_split=True)
     def do_echo(self, namespace):
         '''Displays information to the user.'''
         print namespace.value
@@ -231,7 +196,7 @@ These are some commands to try.
         '''Delete aliases.'''
         _unset(namespace.names, self.aliases)
 
-    @_syntax(filename, presplit=False)
+    @_syntax(filename, dont_split=True)
     def do_save(self, namespace):
         '''Save the current configuration as a list of commands.'''
         config_file = _get(namespace.filename, self.config_file)
@@ -240,7 +205,7 @@ These are some commands to try.
                 print >>config, 'alias %s %s' % item
         #print >>config, 'oload %s' % self.oauth_file  # TODO
 
-    @_syntax(filename, presplit=False)
+    @_syntax(filename, dont_split=True)
     def do_load(self, namespace):
         '''Run commands from a file.'''
         from os.path import exists, expanduser, join
@@ -257,7 +222,7 @@ These are some commands to try.
 
     # Commands related to OAuth.
 
-    @_syntax(value, presplit=False)
+    @_syntax(value, dont_split=True)
     def do_client_id(self, namespace):
         '''Displays or sets the value.'''
         if namespace.value:
@@ -267,7 +232,7 @@ These are some commands to try.
         else:
             print 'The client id is not set.'
 
-    @_syntax(value, presplit=False)
+    @_syntax(value, dont_split=True)
     def do_client_secret(self, namespace):
         '''Displays or sets the value.'''
         if namespace.value:
@@ -277,7 +242,7 @@ These are some commands to try.
         else:
             print 'The client secret is not set.'
 
-    @_syntax(value, presplit=False)
+    @_syntax(value, dont_split=True)
     def do_access_token(self, namespace):
         '''Displays or sets the value.'''
         from urlparse import urlparse, parse_qs
@@ -295,14 +260,14 @@ These are some commands to try.
             print 'Once the web browser redirects, copy the complete URL and'
             print 'use it to re-run this command.'
 
-    @_syntax(filename, presplit=False)
+    @_syntax(filename, dont_split=True)
     def do_osave(self, namespace):
         '''Saves OAuth information into a JSON file.'''
         oauth_file = _get(namespace.filename, self.oauth_file)
         with open(oauth_file, 'w') as fp:
             _json.dump(self.client.__dict__, fp)
 
-    @_syntax(filename, presplit=False)
+    @_syntax(filename, dont_split=True)
     def do_oload(self, namespace):
         '''Loads OAuth information from a JSON file.'''
         from os.path import exists, expanduser, join
@@ -323,27 +288,25 @@ These are some commands to try.
         '''Issues an HTTP POST request'''
         _pprint(self.client.post('/'.join(namespace.path))) #, **namespace.options))
 
-    @_syntax(no_args)
+    # Commands specific to Concur.
+
+    @_syntax(options)
     def do_create_report(self, namespace):
         '''Creates a new expense report'''
-        data = {
-            'Name': 'MMMM Expenses',  # ReportName
-            'Purpose': 'All expenses for MMM, YYYY',
-            'Comment': 'Includes Client Meetings.',  # LastComment (in summary)
-            'UserDefinedDate': 'YYYY-MM-DD HH:MM:SS.0',  # ReportDate
-            }
-        now = datetime.now()
-        new_report = {'Report': dict((k, now.strftime(fix_dates.sub(v))) for k, v in data.items())}
-        canonization = x2j.UsingPrefix(default_namespace='http://www.concursolutions.com/api/expense/expensereport/2011/03')
-        elem = x2j.internal_to_elem(new_report, canonize=canonization)
-        from xml.etree.ElementTree import ElementTree
-        if not isinstance(elem, ElementTree):
-            elem = ElementTree(elem)
-        buffer = StringIO()
-        elem.write(buffer)
-        _pprint(self.client.post_raw('expense/expensereport/v1.1/Report',
-                                     content_type='application/xml',
-                                     data=buffer.getvalue()))
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/Report',
+            Report=validate_report_elements(namespace.options),
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',
+            ))
+
+    @_syntax(options)
+    def do_quickexpense(self, namespace):
+        '''Creates a new quick expense'''
+        _pprint(self.client.post(
+            'expense/expensereport/v1.0/quickexpense/',
+            Report=validate_quickexpense_elements(namespace.options),
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2010/09',
+            ))
 
 
 def main(argv=None):
