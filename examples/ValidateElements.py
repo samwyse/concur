@@ -85,310 +85,290 @@ validate_quickexpense_elements = ValidateElements(
 
 # See also: https://developer.concur.com/api-documentation/draft-documentation/attendee-resource-draft/attendee-resource-get-draft
 
-validate_attendees_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_attendees_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/draft-documentation/e-receipt-service-developer-preview/e-receipt-or-e-invoice-res
 
-validate_v10_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_e_receiptandinvoice_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/company-card-transaction-0
 
-validate__elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_CardCharges = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-delegator-resour-0
 
-validate_Delegators_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Delegators = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-attendee-r-0
 
-validate_Attendees_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Attendees = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Attendees_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Attendees_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-attendee-r-1
 
-validate_Attendees_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Attendees_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Attendees_2_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Attendees_2 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-itemizatio-0
 
-validate_Itemization_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Itemization = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-resource/exp
 
-validate_entry_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_entry_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-report-header-re-0
 
-validate_report_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_report = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_batch_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_batch = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/travel-profile-web-service-new-format/form-payment-resource/form
 
-validate__1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_fop = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/new-portal-format/travel-profile-web-service-new-format/loyalty-program-resource/l
 
-validate_loyalty_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_loyalty = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_loyalty_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_loyalty_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-# See also: https://developer.concur.com/api-documentation/new-portal-format/travel-profile-web-service-new-format/notification-subscriptio-0
+# See also: https://developer.concur.com/api-documentation/oauth-20-0
 
-validate__by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_User = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-# See also: https://developer.concur.com/api-documentation/oauth-20/get-or-refresh-oauth-token-using-web-flow
-
-validate_oauth2_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
-
-# See also: https://developer.concur.com/api-documentation/oauth-20/oauth-access-token-resource/oauth-access-token-resource-get
-
-validate_accesstokenashx_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
-
-validate_oauth2_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
-
-validate_oauth2_by_id_2_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
-
-# See also: https://developer.concur.com/api-documentation/oauth-20.1
-
-validate_oauth2_by_id_3_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
-
-# See also: https://developer.concur.com/api-documentation/oauth-20.2
-
-validate_oauth2_by_id_4_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_User_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/attendee/attendee-resource/attendee-resource-get
 
-validate_attendees_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_attendees_by_id_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/attendee-list/attendee-type-resource/attendee-type-resource-get
 
-validate_type_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_type = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-entry-attendee-resource/v20-expense-entry-atte
 
-validate_attendees_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_attendees = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Attendees_3_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Attendees_3 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-entry-resource/expense-entry-resource-post
 
-validate__2_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
-
-# See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-form-field-resource/expense-form-field-resourc
-
-validate_Fields_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_entry = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-form-resource/expense-form-resource-get
 
-validate_Forms_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Forms = ValidateElements(required=[], optional=['FormCode'])
 
-validate_RPTINFO_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+# See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-form-field-resource/expense-form-field-resourc
+
+validate_Fields = ValidateElements(required=['FormId'], optional=[])
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-group-configuration-resource/expense-group-con
 
-validate__3_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_expensereport_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-report-resource/expense-report-resource-get
 
-validate_status_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_2 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_2_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_3 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_3_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_4 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_4_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_5 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_reportcountry = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_6 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_5_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_7 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_Reports_by_id_6_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Reports_8 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_report_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_report_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-report-resource/expense-report-resource-post
 
-validate_Exceptions_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_Exceptions = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_submit_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_submit = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_workflowaction_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_workflowaction = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/integration-status-resource/integration-status-resourc
 
-validate_report_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_report_by_id_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/expense-report/location-resource/location-resource-get
 
-validate_v11_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_expensereport_by_id_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-definition-resource/extract-definition-resource-get
 
-validate__4_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_v10 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_v10_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_extract_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-file-resource/extract-file-resource-get
 
-validate_file_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_file = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-job-resource/extract-job-resource-get
 
-validate_job_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_job = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_job_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_job_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_status_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_status = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-job-resource/extract-job-resource-post
 
-validate_job_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_job_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/imaging/image-resource/image-resource-post
 
-validate_receipt_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_receipt = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_expenseentry_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_expenseentry_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_invoice_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_invoice_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_report_by_id_2_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_report_by_id_2 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
 # See also: https://developer.concur.com/api-documentation/web-services/imaging/image-url-resource/image-url-resource-get
 
-validate_receipt_by_id_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_receipt_by_id = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_report_by_id_3_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_report_by_id_3 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_expenseentry_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_expenseentry_by_id_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
 
-validate_invoice_by_id_1_elements = ValidateElements(
-    ['required'],
-    ['valid'] )
+validate_invoice_by_id_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
+
+# See also: https://developer.concur.com/api-documentation/web-services/quick-expense/quick-expense-resource/quick-expense-resource-get
+
+validate_quickexpense = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
+
+# See also: https://developer.concur.com/api-documentation/web-services/quick-expense/quick-expense-resource/quick-expense-resource-post
+
+validate_quickexpense_1 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO
+
+validate_quickexpense_2 = ValidateElements(
+    ['required'],  # TODO
+    ['optional'], )  # TODO

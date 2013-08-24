@@ -170,6 +170,9 @@ class ConcurCmd(_Cmd):
         '''Displays example commands.'''
         print '''\
 These are some commands to try.
+\tget_Forms
+\tget_Forms FormCode=RPTINFO
+\tget_Fields FormId=n5oqVNsQ$soy2ftQuy$sU9oHBDNCFPyPQr9
 \tcreate_report Name=MMMM+Expenses Purpose=All+expenses+for+MMM,+YYYY Comment=Includes+Client+Meetings. UserDefinedDate=YYYY-MM-DD+HH:MM:SS.0
 \tget expense expensereport v2.0 Reports -o status=ACTIVE ReportCurrency=USD
 \tget expense expensereport v2.0 report <ReportID>'''
@@ -306,6 +309,571 @@ These are some commands to try.
             'expense/expensereport/v1.0/quickexpense/',
             Report=validate_quickexpense_elements(namespace.options),
             _xmlns='http://www.concursolutions.com/api/expense/expensereport/2010/09',
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/draft-documentation/attendee-resource-draft/attendee-resource-get-draft
+
+    @_syntax(options)
+    def do_get_attendees_by_id(self, namespace):
+        '''Get attendees_by_id'''  # TODO
+        options = validate_attendees_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/v2.0/attendees/{attendees id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/draft-documentation/e-receipt-service-developer-preview/e-receipt-or-e-invoice-res
+
+    @_syntax(options)
+    def do_get_e_receiptandinvoice_by_id(self, namespace):
+        '''Get e-receiptandinvoice_by_id'''  # TODO
+        options = validate_e_receiptandinvoice_by_id(namespace.options)
+        _pprint(self.client.get(
+            'e-receiptandinvoice/v1.0/{e-receiptandinvoice id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/company-card-transaction-0
+
+    @_syntax(options)
+    def do_get_CardCharges(self, namespace):
+        '''Get CardCharges'''  # TODO
+        options = validate_CardCharges(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/CardCharges' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-delegator-resour-0
+
+    @_syntax(options)
+    def do_get_Delegators(self, namespace):
+        '''Get Delegators'''  # TODO
+        options = validate_Delegators(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/Delegators' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-attendee-r-0
+
+    @_syntax(options)
+    def do_get_Attendees(self, namespace):
+        '''Get Attendees'''  # TODO
+        options = validate_Attendees(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/report/{report id}/entry/{entry id}/Attendees' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Attendees_by_id(self, namespace):
+        '''Get Attendees_by_id'''  # TODO
+        options = validate_Attendees_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/report/{report id}/entry/{entry id}/Attendees/{Attendees id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-attendee-r-1
+
+    @_syntax(options)
+    def do_post_Attendees(self, namespace):
+        '''Post Attendees'''  # TODO
+        options = validate_Attendees(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/entry/{entry id}/Attendees' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_Attendees_1(self, namespace):
+        '''Post Attendees_1'''  # TODO
+        options = validate_Attendees_1(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/entry/{entry id}/Attendees' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-itemizatio-0
+
+    @_syntax(options)
+    def do_post_Itemization(self, namespace):
+        '''Post Itemization'''  # TODO
+        options = validate_Itemization(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/entry/{entry id}/Itemization' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-entry-resource/exp
+
+    @_syntax(options)
+    def do_get_entry_by_id(self, namespace):
+        '''Get entry_by_id'''  # TODO
+        options = validate_entry_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/report/{report id}/entry/{entry id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/expense-report-web-service-new-format/expense-report-header-re-0
+
+    @_syntax(options)
+    def do_post_report(self, namespace):
+        '''Post report'''  # TODO
+        options = validate_report(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/api/expense/expensereport/v1.1/report' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_batch(self, namespace):
+        '''Post batch'''  # TODO
+        options = validate_batch(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/api/expense/expensereport/v1.1/report/batch' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/travel-profile-web-service-new-format/form-payment-resource/form
+
+    @_syntax(options)
+    def do_get_fop(self, namespace):
+        '''Get fop'''  # TODO
+        options = validate_fop(namespace.options)
+        _pprint(self.client.get(
+            'travelprofile/v1.0/fop' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/new-portal-format/travel-profile-web-service-new-format/loyalty-program-resource/l
+
+    @_syntax(options)
+    def do_post_loyalty(self, namespace):
+        '''Post loyalty'''  # TODO
+        options = validate_loyalty(namespace.options)
+        _pprint(self.client.post(
+            'travelprofile/v1.0/loyalty' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_loyalty_1(self, namespace):
+        '''Post loyalty_1'''  # TODO
+        options = validate_loyalty_1(namespace.options)
+        _pprint(self.client.post(
+            'travelprofile/v1.0/loyalty' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/oauth-20-0
+
+    @_syntax(options)
+    def do_get_User(self, namespace):
+        '''Get User'''  # TODO
+        options = validate_User(namespace.options)
+        _pprint(self.client.get(
+            'user/v1.0/User' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_User_1(self, namespace):
+        '''Get User_1'''  # TODO
+        options = validate_User_1(namespace.options)
+        _pprint(self.client.get(
+            'user/v1.0/User' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/attendee/attendee-resource/attendee-resource-get
+
+    @_syntax(options)
+    def do_get_attendees_by_id_1(self, namespace):
+        '''Get attendees_by_id_1'''  # TODO
+        options = validate_attendees_by_id_1(namespace.options)
+        _pprint(self.client.get(
+            'expense/v2.0/attendees/{attendees id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/attendee-list/attendee-type-resource/attendee-type-resource-get
+
+    @_syntax(options)
+    def do_get_type(self, namespace):
+        '''Get type'''  # TODO
+        options = validate_type(namespace.options)
+        _pprint(self.client.get(
+            'expense/attendee/v1.0/type' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-entry-attendee-resource/v20-expense-entry-atte
+
+    @_syntax(options)
+    def do_get_attendees(self, namespace):
+        '''Get attendees'''  # TODO
+        options = validate_attendees(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/report/{report id}/entry/{entry id}/attendees' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Attendees_1(self, namespace):
+        '''Get Attendees_1'''  # TODO
+        options = validate_Attendees_1(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/report/{report id}/entry/{entry id}/Attendees' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-entry-resource/expense-entry-resource-post
+
+    @_syntax(options)
+    def do_post_entry(self, namespace):
+        '''Post entry'''  # TODO
+        options = validate_entry(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/entry' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-form-field-resource/expense-form-field-resourc
+
+    @_syntax(options)
+    def do_get_Fields(self, namespace):
+        '''Retrieves the details of the configured form fields for the specified form'''
+        options = validate_Fields(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/report/Form/%(FormId)s/Fields' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-form-resource/expense-form-resource-get
+
+    @_syntax(options)
+    def do_get_Forms(self, namespace):
+        '''Retrieves the list of configured form types or the configured forms for the specified form type'''
+        options = validate_Forms(namespace.options)
+        options.setdefault('FormCode', '')
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/report/Forms/%(FormCode)s' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-group-configuration-resource/expense-group-con
+
+    @_syntax(options)
+    def do_get_expensereport_by_id(self, namespace):
+        '''Get expensereport_by_id'''  # TODO
+        options = validate_expensereport_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/{expensereport id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-report-resource/expense-report-resource-get
+
+    @_syntax(options)
+    def do_get_Reports(self, namespace):
+        '''Get Reports'''  # TODO
+        options = validate_Reports(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_1(self, namespace):
+        '''Get Reports_1'''  # TODO
+        options = validate_Reports_1(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_2(self, namespace):
+        '''Get Reports_2'''  # TODO
+        options = validate_Reports_2(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_3(self, namespace):
+        '''Get Reports_3'''  # TODO
+        options = validate_Reports_3(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_4(self, namespace):
+        '''Get Reports_4'''  # TODO
+        options = validate_Reports_4(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_5(self, namespace):
+        '''Get Reports_5'''  # TODO
+        options = validate_Reports_5(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_6(self, namespace):
+        '''Get Reports_6'''  # TODO
+        options = validate_Reports_6(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_7(self, namespace):
+        '''Get Reports_7'''  # TODO
+        options = validate_Reports_7(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_Reports_8(self, namespace):
+        '''Get Reports_8'''  # TODO
+        options = validate_Reports_8(namespace.options)
+        _pprint(self.client.get(
+            'expense/expenserepo/v2.0/Reports' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_report_by_id(self, namespace):
+        '''Get report_by_id'''  # TODO
+        options = validate_report_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v2.0/report/{report id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/expense-report-resource/expense-report-resource-post
+
+    @_syntax(options)
+    def do_post_Exceptions(self, namespace):
+        '''Post Exceptions'''  # TODO
+        options = validate_Exceptions(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/Exceptions' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_submit(self, namespace):
+        '''Post submit'''  # TODO
+        options = validate_submit(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/submit' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_workflowaction(self, namespace):
+        '''Post workflowaction'''  # TODO
+        options = validate_workflowaction(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.1/report/{report id}/workflowaction' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/integration-status-resource/integration-status-resourc
+
+    @_syntax(options)
+    def do_post_report_by_id(self, namespace):
+        '''Post report_by_id'''  # TODO
+        options = validate_report_by_id(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v2.0/integrationstatus/report/{report id}' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/expense-report/location-resource/location-resource-get
+
+    @_syntax(options)
+    def do_get_expensereport_by_id_1(self, namespace):
+        '''Get expensereport_by_id_1'''  # TODO
+        options = validate_expensereport_by_id_1(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.1/{expensereport id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-definition-resource/extract-definition-resource-get
+
+    @_syntax(options)
+    def do_get_v10(self, namespace):
+        '''Get v1.0'''  # TODO
+        options = validate_v10(namespace.options)
+        _pprint(self.client.get(
+            'expense/extract/v1.0' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_extract_by_id(self, namespace):
+        '''Get extract_by_id'''  # TODO
+        options = validate_extract_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/extract/v1.0/{extract id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-file-resource/extract-file-resource-get
+
+    @_syntax(options)
+    def do_get_file(self, namespace):
+        '''Get file'''  # TODO
+        options = validate_file(namespace.options)
+        _pprint(self.client.get(
+            'expense/extract/v1.0/{extract id}/job/{job id}/file' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-job-resource/extract-job-resource-get
+
+    @_syntax(options)
+    def do_get_job(self, namespace):
+        '''Get job'''  # TODO
+        options = validate_job(namespace.options)
+        _pprint(self.client.get(
+            'expense/extract/v1.0/{extract id}/job' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_job_by_id(self, namespace):
+        '''Get job_by_id'''  # TODO
+        options = validate_job_by_id(namespace.options)
+        _pprint(self.client.get(
+            'expense/extract/v1.0/{extract id}/job/{job id}' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_status(self, namespace):
+        '''Get status'''  # TODO
+        options = validate_status(namespace.options)
+        _pprint(self.client.get(
+            'expense/extract/v1.0/{extract id}/job/{job id}/status' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/extract/extract-job-resource/extract-job-resource-post
+
+    @_syntax(options)
+    def do_post_job(self, namespace):
+        '''Post job'''  # TODO
+        options = validate_job(namespace.options)
+        _pprint(self.client.post(
+            'expense/extract/v1.0/{extract id}/job' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/imaging/image-resource/image-resource-post
+
+    @_syntax(options)
+    def do_post_receipt(self, namespace):
+        '''Post receipt'''  # TODO
+        options = validate_receipt(namespace.options)
+        _pprint(self.client.post(
+            'image/v1.0/receipt' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_expenseentry_by_id(self, namespace):
+        '''Post expenseentry_by_id'''  # TODO
+        options = validate_expenseentry_by_id(namespace.options)
+        _pprint(self.client.post(
+            'image/v1.0/expenseentry/{expenseentry id}' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_invoice_by_id(self, namespace):
+        '''Post invoice_by_id'''  # TODO
+        options = validate_invoice_by_id(namespace.options)
+        _pprint(self.client.post(
+            'image/v1.1/invoice/{invoice id}' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_report_by_id_1(self, namespace):
+        '''Post report_by_id_1'''  # TODO
+        options = validate_report_by_id_1(namespace.options)
+        _pprint(self.client.post(
+            'image/v1.0/report/{report id}' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/imaging/image-url-resource/image-url-resource-get
+
+    @_syntax(options)
+    def do_get_receipt_by_id(self, namespace):
+        '''Get receipt_by_id'''  # TODO
+        options = validate_receipt_by_id(namespace.options)
+        _pprint(self.client.get(
+            'image/v1.0/receipt/{receipt id}' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_report_by_id_1(self, namespace):
+        '''Get report_by_id_1'''  # TODO
+        options = validate_report_by_id_1(namespace.options)
+        _pprint(self.client.get(
+            'image/v1.0/report/{report id}' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_expenseentry_by_id(self, namespace):
+        '''Get expenseentry_by_id'''  # TODO
+        options = validate_expenseentry_by_id(namespace.options)
+        _pprint(self.client.get(
+            'image/v1.0/expenseentry/{expenseentry id}' % options,
+            ))
+
+    @_syntax(options)
+    def do_get_invoice_by_id(self, namespace):
+        '''Get invoice_by_id'''  # TODO
+        options = validate_invoice_by_id(namespace.options)
+        _pprint(self.client.get(
+            'image/v1.0/invoice/{invoice id}' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/quick-expense/quick-expense-resource/quick-expense-resource-get
+
+    @_syntax(options)
+    def do_get_quickexpense(self, namespace):
+        '''Get quickexpense'''  # TODO
+        options = validate_quickexpense(namespace.options)
+        _pprint(self.client.get(
+            'expense/expensereport/v1.0/quickexpense' % options,
+            ))
+
+    # See also: https://developer.concur.com/api-documentation/web-services/quick-expense/quick-expense-resource/quick-expense-resource-post
+
+    @_syntax(options)
+    def do_post_quickexpense(self, namespace):
+        '''Post quickexpense'''  # TODO
+        options = validate_quickexpense(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.0/quickexpense' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
+            ))
+
+    @_syntax(options)
+    def do_post_quickexpense_1(self, namespace):
+        '''Post quickexpense_1'''  # TODO
+        options = validate_quickexpense_1(namespace.options)
+        _pprint(self.client.post(
+            'expense/expensereport/v1.0/quickexpense' % options,
+            RootTag=options,  # TODO
+            _xmlns='http://www.concursolutions.com/api/expense/expensereport/2011/03',  # TODO
             ))
 
 
